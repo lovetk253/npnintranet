@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Sơ đồ tổ chức</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/orgunits.css">
+    <link rel="stylesheet" href="css/search.css">
+</head>
+
+<body>
+    <div id="header"></div>
+    <div class="page-wrapper chiller-theme toggled">
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2">
+                <div class="sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input id="inputSearch" type="text" class="form-control search-menu" placeholder="Search..." onkeypress="return clickButton(event)" >
+                            <div class="input-group-append" onclick="searchOnTop()">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper"></nav>
+        <main class="page-content">
+            <div class="container-fluid">
+                <div class="container">
+                    <form method="post">
+                        <h2>Pro sidebar</h2>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="profile-img">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
+                                        alt="" />
+                                    <div class="file btn btn-lg btn-primary">
+                                        Change Photo
+                                        <input type="file" name="file" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="profile-head">
+                                    <h5>
+                                        Kshiti Ghelani
+                                    </h5>
+                                    <h6>
+                                        Web Developer and Designer
+                                    </h6>
+                                    <p class="proile-rating">RANKINGS : <span>8/10</span></p>
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home"
+                                                role="tab" aria-controls="home" aria-selected="true">About</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile"
+                                                role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="profile-work">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#demoq" aria-expanded="true">Sơ đồ tổ
+                                                chức</a>
+                                        </h4>
+                                    </div>
+                                    <div id="demoq" class="panel-collapse collapse show">
+                                        <ul class="list-group list-group-flush" id="demo">
+                                            <li class="list-group-item">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title"><span
+                                                            class="arrow-down collapsed"></span><a class="pointer"
+                                                            onclick="showInfoAllUser()">Danh sách toàn bộ</a></div>
+                                                </div>
+                                                <div id="" class="panel-collapse collapse">
+                                                    <ul class="list-group list-group-flush" id=""></ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p>WORK LINK</p>
+                                    <a href="">Website Link</a><br />
+                                    <a href="">Bootsnipp Profile</a><br />
+                                    <a href="">Bootply Profile</a>
+                                    <p>SKILLS</p>
+                                    <a href="">Web Designer</a><br />
+                                    <a href="">Web Developer</a><br />
+                                    <a href="">WordPress</a><br />
+                                    <a href="">WooCommerce</a><br />
+                                    <a href="">PHP, .Net</a><br />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <a id="numberOfUser"></a>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <div class="input-group">
+                                            <input type="text" id="inputSearchInOrg" class="form-control search-menu"
+                                                placeholder="Search...">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="searchUser" onclick="searchUser()">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-bordered" id="userInOrgUnit">
+                                    <thead>
+                                        <tr>
+                                            <th>Firstname</th>
+                                            <th>Lastname</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            Launch demo modal
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true" onclick="resetModal()">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                                        <button type="button" class="close" onclick="resetModal()" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row" id="rowFullName">
+                                            <label class="col-md-3">Họ tên</label>
+                                            <input class="col-md-8" id="inputFullName" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowPhone">
+                                            <label class="col-md-3">Số điện thoại</label>
+                                            <input class="col-md-8" id="inputPhone" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowEmail">
+                                            <label class="col-md-3">Email</label>
+                                            <input class="col-md-8" id="inputEmail" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowAddress">
+                                            <label class="col-md-3">Địa chỉ</label>
+                                            <input class="col-md-8" id="inputAddress" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowEmployeeId">
+                                            <label class="col-md-3">Mã nhân viên</label>
+                                            <input class="col-md-8" id="inputEmployeeId" placeholder=""
+                                                disabled></input>
+                                        </div>
+                                        <div class="row" id="rowJobTitle">
+                                            <label class="col-md-3">Chức Vụ</label>
+                                            <input class="col-md-8" id="inputJobTitle" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowDepartment">
+                                            <label class="col-md-3">Phòng ban</label>
+                                            <input class="col-md-8" id="inputDepartment" placeholder=""
+                                                disabled></input>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div id="auth-status" style="display: inline; padding-left: 25px"></div>
+                <hr>
+            </div>
+        </main>
+    </div>
+    <div id="footer"></div>
+    <script src="js/home.js"></script>
+    <script src="common/headerfooter.js"></script>
+    <script src="common/sidebar.js"></script>
+    <script src="js/orgunits.js"></script>
+    <script src="js/search.js"></script>
+</body>
+
+</html>

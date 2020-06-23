@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Tìm kiếm</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/search.css">
+</head>
+
+<body>
+    <div id="header"></div>
+    <div class="page-wrapper chiller-theme toggled">
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2">
+                <div class="sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input id="inputSearch" type="text" class="form-control search-menu" placeholder="Search..."
+                                onkeypress="return clickButtonInPage(event)">
+                            <div class="input-group-append" onclick="searchInPage()">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper"></nav>
+        <main class="page-content">
+            <div class="container-fluid">
+                <div class="container">
+                    <form method="post">
+                        <h2>Pro sidebar</h2>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <a id="numberOfUser"></a>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                                <table class="table table-bordered" id="userInSearch">
+                                    <thead>
+                                        <tr>
+                                            <th>Firstname</th>
+                                            <th>Lastname</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-2">Max result</div>
+                                        <div class="col-md-1">
+                                            <select name="dropdown" id="dropdownMaxResult" onchange="searchByOnChange()">
+                                                <option value="" selected>All</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div id="nextPage" data-pagetoken="" onclick="searchByOnChange()">
+                                                <img style="width: 25px;" src="https://img.icons8.com/cotton/64/000000/circled-chevron-right.png"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true" onclick="resetModal()">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                                        <button type="button" class="close" onclick="resetModal()" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row" id="rowFullName">
+                                            <label class="col-md-3">Họ tên</label>
+                                            <input class="col-md-8" id="inputFullName" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowPhone">
+                                            <label class="col-md-3">Số điện thoại</label>
+                                            <input class="col-md-8" id="inputPhone" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowEmail">
+                                            <label class="col-md-3">Email</label>
+                                            <input class="col-md-8" id="inputEmail" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowAddress">
+                                            <label class="col-md-3">Địa chỉ</label>
+                                            <input class="col-md-8" id="inputAddress" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowEmployeeId">
+                                            <label class="col-md-3">Mã nhân viên</label>
+                                            <input class="col-md-8" id="inputEmployeeId" placeholder=""
+                                                disabled></input>
+                                        </div>
+                                        <div class="row" id="rowJobTitle">
+                                            <label class="col-md-3">Chức Vụ</label>
+                                            <input class="col-md-8" id="inputJobTitle" placeholder="" disabled></input>
+                                        </div>
+                                        <div class="row" id="rowDepartment">
+                                            <label class="col-md-3">Phòng ban</label>
+                                            <input class="col-md-8" id="inputDepartment" placeholder=""
+                                                disabled></input>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div id="footer"></div>
+    <script src="common/headerfooter.js"></script>
+    <script src="common/sidebar.js"></script>
+    <script src="js/orgunits.js"></script>
+    <script src="js/search.js"></script>
+</body>
+
+</html>

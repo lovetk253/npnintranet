@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Yêu cầu nghỉ phép</title>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <link rel="stylesheet" href="common/mdb.css">
+    <link rel="stylesheet" href="css/leaveofabsence.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="apple-touch-icon" type="image/png"
+        href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+    <link rel="shortcut icon" type="image/x-icon"
+        href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+    <link rel="mask-icon" type=""
+        href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg"
+        color="#111" />
+    <link href='https://fonts.googleapis.com/css?family=Vollkorn:400,700' rel='stylesheet' type='text/css'>
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="common/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="common/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="common/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="common/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="common/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="common/css/util.css">
+    <link rel="stylesheet" type="text/css" href="common/css/main.css">
+</head>
+
+<body>
+    <div id="header"></div>
+    <div class="page-wrapper chiller-theme toggled">
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2">
+                <div class="sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input id="inputSearch" type="text" class="form-control search-menu" placeholder="Search..."
+                                onkeypress="return clickButton(event)">
+                            <div class="input-group-append" onclick="searchOnTop()">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper"></nav>
+        <main class="page-content">
+            <div class="container-fluid">
+                <div class="container">
+                    <h1 class="description" style="text-align: center;">
+                        Yêu cầu của bạn
+                    </h1>
+                    <!-- Table demo -->
+                    <div class="box-table">
+                        <div class="table100 ver4 m-b-110">
+                            <div class="table100-head">
+                            </div>
+                            <div class="table100-body js-pscroll">
+                                <table id="listRequest" data-fn="contacts">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="detailOfDay">
+                            <a id="textOfDay"></a>
+                            <a href="#modalDetailOfDay" id="infoOfDay">Chi tiết</a>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="createRequest">+ Tạo yêu cầu mới</button>
+                    </div>
+                    <div class="modal fade" id="modalRequest" tabindex="-2" role="dialog"
+                        aria-labelledby="modalRequestTitle" aria-hidden="true" data-backdrop="static">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalRequestTitle">Tạo yêu cầu mới</h5>
+                                    <button type="button" class="close" onclick="closeModalRequest()"
+                                        aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="formYeucaunghiphep" class="">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="tieude">Tiêu đề*:</label>
+                                                    <input type="text" class="form-control" id="tieude"
+                                                        placeholder="Tiêu đề" name="tieude" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mucdich">Mục đích*:</label>
+                                                    <!-- <input type="text" class="form-control" id="mucdich"
+                                                        placeholder="Mục đích" name="mucdich" required> -->
+                                                    <select class="browser-default custom-select" name="mucdich"
+                                                        id="mucdich" required>
+                                                        <option value="" disabled selected>Choose your option</option>
+                                                        <option value="Nghỉ phép của năm trước">Nghỉ phép của năm trước
+                                                        </option>
+                                                        <option value="Nghỉ bù">Nghỉ bù</option>
+                                                        <option value="Nghỉ mát">Nghỉ mát</option>
+                                                        <option value="Nghỉ chăm sóc con ốm">Nghỉ chăm sóc con ốm
+                                                        </option>
+                                                        <option value="Nghỉ kết hôn">Nghỉ kết hôn</option>
+                                                        <option value="Nghỉ do vợ sinh(thường)">Nghỉ do vợ sinh(thường)
+                                                        </option>
+                                                        <option value="Nghỉ do vợ sinh(mổ)">Nghỉ do vợ sinh(mổ)</option>
+                                                        <option value="Nghỉ do vợ sinh đôi">Nghỉ do vợ sinh đôi</option>
+                                                        <option
+                                                            value="Nghỉ nuôi dưỡng trẻ do mẹ bị tử vong hoặc rủi ro sau sinh">
+                                                            Nghỉ nuôi dưỡng trẻ do mẹ bị tử vong hoặc rủi ro sau sinh
+                                                        </option>
+                                                        <option value="Nhận con nuôi dưới 6 tháng">Nhận con nuôi dưới 6
+                                                            tháng
+                                                        </option>
+                                                        <option value="Nghỉ con kết hô">Nghỉ con kết hôn</option>
+                                                        <option value="Nghỉ tang(tứ thân, phụ mẫu)">Nghỉ tang(tứ thân,
+                                                            phụ mẫu)
+                                                        </option>
+                                                        <option value="Nghỉ thực hiện biện pháp tránh thai">Nghỉ thực
+                                                            hiện biện pháp
+                                                            tránh thai
+                                                        </option>
+                                                        <option value="Nghỉ khám thai">Nghỉ khám thai</option>
+                                                        <option value="Làm việc ngoài công ty/Onsite/Công tác">Làm việc
+                                                            ngoài công
+                                                            ty/Onsite/Công tác</option>
+                                                        <option value="Nghỉ việc riêng">Nghỉ việc riêng</option>
+                                                        <option value="Nghỉ thai sản">Nghỉ thai sản</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nguoipheduyet">Người phê duyệt*:</label></br>
+                                                    <select class="browser-default custom-select" name="nguoipheduyet"
+                                                        id="nguoipheduyet" required>
+                                                        <option value="" disabled selected>Choose your option</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="loaixinnghi">Loại xin nghỉ*:</label>
+                                                    <select class="browser-default custom-select" name="loaixinnghi"
+                                                        id="loaixinnghi" required>
+                                                        <option value="" disabled selected>Choose your option</option>
+                                                        <option value="Nghỉ phép">Nghỉ phép</option>
+                                                        <option value="Nghỉ không lương">Nghỉ không lương</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="thoigiannghi">Thời gian nghỉ*:</label>
+                                                    <select class="browser-default custom-select" name="thoigiannghi"
+                                                        id="thoigiannghi" required>
+                                                        <option value="" disabled selected>Choose your option</option>
+                                                        <option value="Nghỉ cả ngày">Nghỉ cả ngày</option>
+                                                        <option value="Nghỉ buổi sáng">Nghỉ buổi sáng</option>
+                                                        <option value="Nghỉ buổi chiều">Nghỉ buổi chiều</option>
+                                                        <option value="Đến muộn">Đến muộn</option>
+                                                        <option value="Về sớm">Về sớm</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="thongbaocho">Thông báo cho:</label>
+                                                    <input type="text" class="form-control" id="thongbaocho"
+                                                        placeholder="Thông báo cho" name="thongbaocho">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="thongbaocho">Thời gian bắt đầu:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="thongbaocho">Thời gian kết thúc:</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="flex-row d-flex justify-content-center">
+                                                    <div class="col-lg-12 col-11 px-1">
+                                                        <div class="input-group input-daterange form-group">
+                                                            <input type="text" id="tgbatdau"
+                                                                class="form-control text-left mr-2" required>
+                                                            <label class="ml-3 form-control-placeholder" id="start-p"
+                                                                for="tgbatdau"></label>
+                                                            <span class="fa fa-calendar" id="fa-1"></span>
+                                                            <input type="text" id="tgketthuc"
+                                                                class="form-control text-left ml-2" required>
+                                                            <label class="ml-3 form-control-placeholder" id="end-p"
+                                                                for="tgketthuc"></label>
+                                                            <span class="fa fa-calendar" id="fa-2"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <button class="">Submit</button> -->
+                                        <button type="submit" class="btn btn-secondary">
+                                            <span class="MuiButton-label">
+                                                <span class="icon">
+                                                    <i class="fa fa-send"></i>
+                                                </span>Gửi yêu cầu
+                                            </span>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer" id="footerRequest">
+                                    <div id="contentResult"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" onclick="resetModalRequest()">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Thông tin chi tiết</h5>
+                                <button type="button" class="close" onclick="resetModalRequest()" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body detailInfo">
+                                <div class="row" id="rowTieuDe">
+                                    <label class="col-md-4">Tiêu đề</label>
+                                    <input class="col-md-7" id="inputTieuDe" placeholder="" disabled></input>
+                                </div>
+                                <div class="row" id="rowMucDich">
+                                    <label class="col-md-4">Mục đích</label>
+                                    <input class="col-md-7" id="inputMucDich" placeholder="" disabled></input>
+                                </div>
+                                <div class="row" id="rowLoaiXinNghi">
+                                    <label class="col-md-4">Loại xin nghỉ</label>
+                                    <input class="col-md-7" id="inputLoaiXinNghi" placeholder="" disabled></input>
+                                </div>
+                                <div class="row" id="rowTgNghi">
+                                    <label class="col-md-4">Thời gian nghỉ</label>
+                                    <input class="col-md-7" id="inputTgNghi" placeholder="" disabled></input>
+                                </div>
+                                <div class="row" id="rowNguoiPheDuyet">
+                                    <label class="col-md-4">Người phê duyệt</label>
+                                    <input class="col-md-7" id="inputNguoiPheDuyet" placeholder="" disabled></input>
+                                </div>
+                                <div class="row" id="rowTbCho">
+                                    <label class="col-md-4">Thông báo cho</label>
+                                    <input class="col-md-7" id="inputTbCho" placeholder="" disabled></input>
+                                </div>
+                                <div class="row" id="rowTgBatDau">
+                                    <label class="col-md-4">Thời gian bắt đầu</label>
+                                    <input class="col-md-7" id="inputTgBatDau" placeholder="" disabled></input>
+                                </div>
+                                <div class="row" id="rowTgKetThuc">
+                                    <label class="col-md-4">Thời gian kết thúc</label>
+                                    <input class="col-md-7" id="inputTgKetThuc" placeholder="" disabled></input>
+                                </div>
+                                <div class="row" id="rowTrangThai">
+                                    <label class="col-md-4">Trạng thái</label>
+                                    <input class="col-md-7" id="inputTrangThai" placeholder="" disabled></input>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="modalDetailOfDay" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Thông tin chi tiết</h5>
+                                <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered" data-fn="detaiOfDays"></table>
+                            </div>
+                            <!-- <span>số ngày phép còn lại</span> -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+    </main>
+    </div>
+    <div id="footer"></div>
+    <script
+        src='https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.14/js/jquery.tablesorter.min.js'></script>
+    <script src="js/leaveofabsence.js"></script>
+    <script src="common/headerfooter.js"></script>
+    <script src="common/sidebar.js"></script>
+    <script src="js/orgunits.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/test.js"></script>
+    <script src="common/vendor/bootstrap/js/popper.js"></script>
+    <script src="common/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="common/vendor/select2/select2.min.js"></script>
+    <script src="common/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script>
+        $('.js-pscroll').each(function () {
+            var ps = new PerfectScrollbar(this);
+
+            $(window).on('resize', function () {
+                ps.update();
+            })
+        });
+
+
+    </script>
+    <script src="common/js/main.js"></script>
+</body>
+
+</html>
