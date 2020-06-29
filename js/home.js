@@ -20,7 +20,7 @@ function initClient() {
     // 'scope' field specifies space-delimited list of access scopes.
     gapi.client.init({
         'apiKey': 'AIzaSyAUX-GeTCdEoLwp4BfkTTuhN3s35iNWOes',
-        'clientId': '169205259825-8avleqcjcpvviksnabtbrd9iq1abki7p.apps.googleusercontent.com',
+        'clientId': '169205259825-5j8krgkd27aqr3inig1h6psr6c758rfb.apps.googleusercontent.com',
         'discoveryDocs': [discoveryUrl],
         'scope': SCOPE
     }).then(function () {
