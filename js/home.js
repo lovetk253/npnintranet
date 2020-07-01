@@ -94,7 +94,7 @@ function setSigninStatus(isSignedIn) {
             //localStorage.setItem("storageUserData", data);
             localStorage.setItem('storageUserData', JSON.stringify(data));
             localStorage.setItem('storageInput', '');
-            window.location.replace("https://sites.google.com/devop.com.vn/intranet/home");
+            window.location.replace("home.html");
         });
     } else {
         //alert('Ban chua dang nhap!');
