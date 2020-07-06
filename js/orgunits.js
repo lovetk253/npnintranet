@@ -4,7 +4,7 @@ $(function () {
 });
 
 function getUserData(primaryEmail) {
-    var a = localStorage.getItem("storageAccess");
+    var a = getValue("storageAccess");
     var PATH = 'https://www.googleapis.com/admin/directory/v1/users/' + primaryEmail + '?access_token=' + a + '&projection=full';
     return $.ajax({
         url: PATH,
@@ -13,8 +13,8 @@ function getUserData(primaryEmail) {
 }
 
 function getAllUserData() {
-    var a = localStorage.getItem("storageAccess");
-    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var a = getValue("storageAccess");
+    var data = JSON.parse(getValue('storageUserData'));
     var domain = data.primaryEmail.split("@")[1];
     var PATH = 'https://www.googleapis.com/admin/directory/v1/users/?domain=' + domain + '&access_token=' + a;
     return $.ajax({
@@ -24,11 +24,11 @@ function getAllUserData() {
 }
 
 function getOrgUnit() {
-    primaryEmail = localStorage.getItem('storageEmail');
+    primaryEmail = getValue('storageEmail');
     $.when(getUserData(primaryEmail)).done(function (data) {
         if (!data == '') {
             customerId = data["customerId"];
-            a = localStorage.getItem("storageAccess");
+            a = getValue("storageAccess");
             let PATH = 'https://www.googleapis.com/admin/directory/v1/customer/' + customerId + '/orgunits?access_token=' + a + '&orgUnitPath=/&type=all';
             $.ajax({
                 url: PATH,
@@ -65,8 +65,8 @@ function getOrgUnit() {
 }
 
 function getAllUserDataInOrg(path) {
-    var a = localStorage.getItem("storageAccess");
-    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var a = getValue("storageAccess");
+    var data = JSON.parse(getValue('storageUserData'));
     var domain = data.primaryEmail.split("@")[1];
     var PATH = 'https://www.googleapis.com/admin/directory/v1/users?domain=' + domain + '&access_token=' + a + '&query=orgUnitPath=' + "'" + path + "'";
     return $.ajax({
@@ -79,7 +79,7 @@ function getUserInOrgUnit(path) {
     var pathOfUser = path.getAttribute("data-path");
     var userPath = [];
     var table = document.getElementById("userInOrgUnit").getElementsByTagName('tbody')[0];
-    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var data = JSON.parse(getValue('storageUserData'));
     var isAdmin = data.isAdmin;
     $("#userInOrgUnit").find("tbody").empty();
     var numberOfUser = 0;
@@ -90,7 +90,8 @@ function getUserInOrgUnit(path) {
                 fillUserInTableInOrg(isAdmin, user, table, pathOfUser);
                 numberOfUser++;
             });
-            localStorage.setItem('storageDSUserData', JSON.stringify(userPath));
+            // localStorage.setItem('storageDSUserData', JSON.stringify(userPath));
+            document.cookie = "storageDSUserData="+JSON.stringify(userPath);
             document.getElementById("numberOfUser").innerHTML = 'Tổng số nhân viên: ' + numberOfUser;
         } else {
             document.getElementById("numberOfUser").innerHTML = 'Tổng số nhân viên: 0';
@@ -192,7 +193,7 @@ function setMangerOfOrgUnit(value) {
 }
 
 function updateRoleOrgForUser(pathOfOrg, role, email) {
-    var access_token = localStorage.getItem("storageAccess");
+    var access_token = getValue("storageAccess");
     var dataUser;
     $.when(getUserData(email)).done(function (data) {
         dataUser = data;
@@ -241,8 +242,8 @@ function updateRoleOrgForUser(pathOfOrg, role, email) {
 }
 
 function searchSchema() {
-    var access_token = localStorage.getItem("storageAccess");
-    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var access_token = getValue("storageAccess");
+    var data = JSON.parse(getValue('storageUserData'));
     var customerId = data.customerId;
     var PATH = 'https://www.googleapis.com/admin/directory/v1/customer/' + customerId + '/schemas/manageOrgUnit?access_token=' + access_token;
     return $.ajax({
@@ -252,8 +253,8 @@ function searchSchema() {
 }
 
 function createSchema() {
-    var access_token = localStorage.getItem("storageAccess");
-    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var access_token = getValue("storageAccess");
+    var data = JSON.parse(getValue('storageUserData'));
     var customerId = data.customerId;
     var dataSchema = '{"displayName":"Manage Org Unit","fields":[{"displayName":"Manage Org","fieldName":"manageOrg","fieldType":"STRING","indexed": true,"multiValued":true}],"schemaName":"manageOrgUnit"}';
     var PATH = 'https://www.googleapis.com/admin/directory/v1/customer/' + customerId + '/schemas?access_token=' + access_token;
@@ -267,7 +268,7 @@ function createSchema() {
 }
 
 function showInfoAllUser() {
-    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var data = JSON.parse(getValue('storageUserData'));
     var isAdmin = data.isAdmin;
     var table = document.getElementById("userInOrgUnit").getElementsByTagName('tbody')[0];
     $("#userInOrgUnit").find("tbody").empty();
@@ -280,7 +281,8 @@ function showInfoAllUser() {
                 numberOfUser++;
             });
             document.getElementById("numberOfUser").innerHTML = 'Tổng số nhân viên: ' + numberOfUser;
-            localStorage.setItem('storageDSUserData', JSON.stringify(users));
+            // localStorage.setItem('storageDSUserData', JSON.stringify(users));
+            document.cookie = "storageDSUserData="+JSON.stringify(userPath);
         }
     });
 }
@@ -319,9 +321,9 @@ function getObjects(obj, key, val) {
 }
 
 function searchUser() {
-    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var data = JSON.parse(getValue('storageUserData'));
     var isAdmin = data.isAdmin;
-    var dsUserJson = localStorage.getItem('storageDSUserData');
+    var dsUserJson = getValue('storageDSUserData');
     var dsUser = JSON.parse(dsUserJson);
     var keyArr = ["fullName", "primaryEmail", "address", "value"];
     var input = $('#inputSearchInOrg').val();
@@ -356,4 +358,14 @@ function searchUser() {
         fillUserInTableInOrg(isAdmin, user, table, "");
     });
     document.getElementById("numberOfUser").innerHTML = 'Tổng số nhân viên: ' + userArr.length;
+}
+function getValue(key){
+    allCookies = document.cookie.split(';');
+    value ='';
+    allCookies.forEach(item =>{
+        if(item.trim().startsWith(key)){
+            value = item;
+        }
+    })
+    return value.split("=")[1];
 }

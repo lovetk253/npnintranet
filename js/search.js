@@ -1,6 +1,6 @@
 var input = '';
 $(function () {
-    var input = localStorage.getItem("storageInput");
+    var input = getValue("storageInput");
     if (input !== null && input !== '') {
         search(input);
     }
@@ -12,16 +12,18 @@ function searchOnTop() {
             input = inputInSearch.value;
         }
     }
-    localStorage.setItem('storageInput', input);
+    // localStorage.setItem('storageInput', input);
+    document.cookie = "storageInput="+input;
     window.location.replace("search.html");
 }
 function searchInPage() {
     var input = document.getElementById("inputSearch").value;
     search(input);
-    localStorage.setItem('storageInput', input);
+    // localStorage.setItem('storageInput', input);
+    document.cookie = "storageInput="+input;
 }
 function searchByOnChange() {
-    var input = localStorage.getItem("storageInput");
+    var input = getValue("storageInput");
     search(input);
 }
 function search(input) {
@@ -35,7 +37,7 @@ function search(input) {
     if (findPageToken !== null && findPageToken.getAttribute("data-pagetoken") !== "undefined") {
         pageToken = findPageToken.getAttribute("data-pagetoken");
     }
-    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var data = JSON.parse(getValue('storageUserData'));
     var query = '';
     var checkTable = document.getElementById("userInSearch");
     if (checkTable !== null) {
@@ -75,7 +77,7 @@ function clickButtonInPage(e) {
     }
 }
 function getAllUserDataInSearch(domain, maxResults, pageToken, query) {
-    var access = localStorage.getItem("storageAccess");
+    var access = getValue("storageAccess");
     var PATH = 'https://www.googleapis.com/admin/directory/v1/users/?domain=' + domain + '&access_token=' + access + '&query=' + query;
     if (maxResults !== '') {
         PATH += '&maxResults=' + maxResults;
@@ -97,4 +99,14 @@ function fillUserInTable(user, table) {
     cell1.innerHTML = user["name"]["familyName"];
     cell2.innerHTML = user["name"]["givenName"];
     cell3.innerHTML = user["primaryEmail"] + '<img class="infoUser" onclick="showInfoUser(this)" data-toggle="modal" data-email="' + user["primaryEmail"] + '"src="images/info.png"></img>';
+}
+function getValue(key){
+    allCookies = document.cookie.split(';');
+    value ='';
+    allCookies.forEach(item =>{
+        if(item.trim().startsWith(key)){
+            value = item;
+        }
+    })
+    return value.split("=")[1];
 }

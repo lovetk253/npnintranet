@@ -42,10 +42,7 @@ function initClient() {
         $('#revoke-access-button').click(function () {
             revokeAccess();
         });
-
-
     });
-
 }
 
 function renderButton() {
@@ -80,10 +77,12 @@ function setSigninStatus(isSignedIn) {
         primaryEmail = user.getBasicProfile().getEmail();
         console.log(user.getBasicProfile().getImageUrl());
     }
-    localStorage.setItem("storageEmail", primaryEmail);
+    // localStorage.setItem("storageEmail", primaryEmail);
+    document.cookie = "storageEmail="+primaryEmail;
     if (!user.getAuthResponse(true) == '') {
         access = user.getAuthResponse(true).access_token;
-        localStorage.setItem("storageAccess", user.getAuthResponse(true).access_token);
+        // localStorage.setItem("storageAccess", user.getAuthResponse(true).access_token);
+        document.cookie = "access="+access;
     }
 
     var isAuthorized = user.hasGrantedScopes(SCOPE);
@@ -92,8 +91,10 @@ function setSigninStatus(isSignedIn) {
             data["imageUrl"] = user.getBasicProfile().getImageUrl();
             console.log(data["imageUrl"]);
             //localStorage.setItem("storageUserData", data);
-            localStorage.setItem('storageUserData', JSON.stringify(data));
-            localStorage.setItem('storageInput', '');
+            // localStorage.setItem('storageUserData', JSON.stringify(data));
+            // localStorage.setItem('storageInput', '');
+            document.cookie = "storageInput=";
+            document.cookie = "storageUserData="+JSON.stringify(data);
             window.location.replace("home.html");
         });
     } else {
@@ -107,7 +108,7 @@ function updateSigninStatus(isSignedIn) {
 
 function getUserData(primaryEmail) {
     //var userKey = document.getElementById("inputUser").value;
-    var a = localStorage.getItem("storageAccess");
+    var a = getValue("storageAccess");
     var PATH = 'https://www.googleapis.com/admin/directory/v1/users/' + primaryEmail + '?access_token=' + a + '&projection=full';
     return $.ajax({
         url: PATH,
@@ -116,11 +117,11 @@ function getUserData(primaryEmail) {
 }
 //localStorage.setItem("storageUserData", userData);
 function getOrgUnit() {
-    primaryEmail = localStorage.getItem('storageEmail');
+    primaryEmail = getValue('storageEmail');
     $.when(getUserData(primaryEmail)).done(function (data) {
         if (!data == '') {
             customerId = data["customerId"];
-            a = localStorage.getItem("storageAccess");
+            a = getValue("storageAccess");
             let PATH = 'https://www.googleapis.com/admin/directory/v1/customer/' + customerId + '/orgunits?access_token=' + a + '&orgUnitPath=/&type=all';
             $.ajax({
                 url: PATH,
@@ -154,53 +155,13 @@ function getOrgUnit() {
     });
 }
 
-function getGroup() {
-    a = localStorage.getItem("storageAccess");
-    let PATH = 'https://www.googleapis.com/admin/directory/v1/groups/dev.group@devops.net.vn?access_token=' + a;
-    $.ajax({
-        url: PATH,
-        type: "GET",
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (error) {
-            console.log("Something went wrong", error);
+function getValue(key){
+    allCookies = document.cookie.split(';');
+    value ='';
+    allCookies.forEach(item =>{
+        if(item.trim().startsWith(key)){
+            value = item;
         }
-    });
-}
-
-function createUser() {
-    var json = {
-        "name": {
-            "familyName": "",
-            "givenName": "",
-        },
-        "password": "",
-        "primaryEmail": "",
-    }
-    var familyName = document.getElementById("familyName").value;
-    var givenName = document.getElementById("givenName").value;
-    var password = document.getElementById("password").value;
-    var primaryEmail = document.getElementById("primaryEmail").value;
-    json.name.familyName = familyName;
-    json.name.givenName = givenName;
-    json.password = password;
-    json.primaryEmail = primaryEmail;
-    var a = localStorage.getItem("storageAccess");
-    console.log(a);
-
-    let PATH = 'https://www.googleapis.com/admin/directory/v1/users?access_token=' + a;
-    $.ajax({
-        url: PATH,
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(json),
-        dataType: 'json',
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (error) {
-            console.log("Something went wrong", error);
-        }
-    });
+    })
+    return value.split("=")[1];
 }

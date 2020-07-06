@@ -30,7 +30,7 @@ $(function () {
 });
 
 function requestLeave() {
-  var data = JSON.parse(localStorage.getItem('storageUserData'));
+  var data = JSON.parse(getValue('storageUserData'));
   var emailnguoigui = data.primaryEmail;
   var hotennguoigui = data.name.fullName;
   var now = new Date();
@@ -52,7 +52,7 @@ function requestLeave() {
   }
   var arrayRequest = [id, hotennguoigui, emailnguoigui, tieude, mucdich, hotennguoipheduyet, emailnguoipheduyet, loaixinnghi, thoigiannghi, thongbaocho, tgbatdau, tgketthuc]
   jsonRequest.values.push(arrayRequest);
-  var access = localStorage.getItem("storageAccess");
+  var access = getValue("storageAccess");
   let PATH = 'https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '/values/' + range + ':append?insertDataOption=' + insertDataOption + '&valueInputOption=' + valueInputOption + '&access_token=' + access;
   $.ajax({
     url: PATH,
@@ -75,7 +75,7 @@ function requestLeave() {
 }
 
 function showRequest(){
-  var data = JSON.parse(localStorage.getItem('storageUserData'));
+  var data = JSON.parse(getValue('storageUserData'));
   var email = data.primaryEmail;
   $.when(getRequest()).done(function (data) {
     if (data !== undefined && typeof data.valueRanges !== null && typeof data.valueRanges.values !== null && data.valueRanges.values !== '') {
@@ -92,7 +92,7 @@ function showRequest(){
 }
 
 function getRequest() {
-  var access = localStorage.getItem("storageAccess");
+  var access = getValue("storageAccess");
   let PATH = 'https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '/values:batchGet?&ranges='+ range + '&access_token=' + access;
   return $.ajax({
     url: PATH,
@@ -101,8 +101,8 @@ function getRequest() {
 }
 
 function addNguoiPheDuyet() {
-  var access = localStorage.getItem("storageAccess");
-  var userData = JSON.parse(localStorage.getItem('storageUserData'));
+  var access = getValue("storageAccess");
+  var userData = JSON.parse(getValue('storageUserData'));
   if (typeof userData.customSchemas !== 'undefined' && userData.customSchemas.manageOrgUnit.manageOrg.length > 0) {
     userData.customSchemas.manageOrgUnit.manageOrg.forEach(manage => {
       if (manage.value == userData.orgUnitPath) {
@@ -168,7 +168,7 @@ function getManagerOfOrg(access, data, orgUnitPath) {
 }
 
 function getUserData(primaryEmail) {
-  var a = localStorage.getItem("storageAccess");
+  var a = getValue("storageAccess");
   var PATH = 'https://www.googleapis.com/admin/directory/v1/users/' + primaryEmail + '?access_token=' + a;
   return $.ajax({
     url: PATH,
@@ -291,7 +291,7 @@ function closeModalRequest() {
 }
 
 function showDetailOfDay() {
-  var data = JSON.parse(localStorage.getItem('storageUserData'));
+  var data = JSON.parse(getValue('storageUserData'));
   var email = data.primaryEmail;
   $.when(getDetailDay()).done(function (data) {
     if (typeof data.valueRanges !== "undefined" && data.valueRanges.length > 0 && typeof data.valueRanges[0].values !== "undefined" && data.valueRanges[0].values.length > 0) {
@@ -307,7 +307,7 @@ function showDetailOfDay() {
   });
 }
 function getDetailDay(){
-  var access = localStorage.getItem("storageAccess");
+  var access = getValue("storageAccess");
   let PATH = 'https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '/values:batchGet?&ranges=' + rangeNgayPhep + '&access_token=' + access;
   return $.ajax({
     url: PATH,
@@ -406,3 +406,13 @@ function insertTableDetail(data) {
     $.table_of_contacts.get.init();
   });
 };
+function getValue(key){
+  allCookies = document.cookie.split(';');
+  value ='';
+  allCookies.forEach(item =>{
+      if(item.trim().startsWith(key)){
+          value = item;
+      }
+  })
+  return value.split("=")[1];
+}

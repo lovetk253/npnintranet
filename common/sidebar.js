@@ -32,7 +32,7 @@ $(function () {
 
 });
 function loadDataUser() {
-  var data = JSON.parse(localStorage.getItem('storageUserData'));
+  var data = getValue('storageUserData');
   if (data !== null) {
     var fullName = data["name"]["fullName"];
     var primaryEmail = data["primaryEmail"];
@@ -45,4 +45,14 @@ function loadDataUser() {
 function gotoOrgUnit() {
   window.location.replace("orgunits.html");
 
+}
+function getValue(key){
+  allCookies = document.cookie.split(';');
+  value ='';
+  allCookies.forEach(item =>{
+      if(item.trim().startsWith(key)){
+          value = item;
+      }
+  })
+  return value.split("=")[1];
 }

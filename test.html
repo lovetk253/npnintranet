@@ -1,1 +1,33 @@
-<a onclick="showInfoAllUser()"></a>
+<script>
+    $(function () {
+        showInfoAllUser();
+    //$(".dropdown-toggle").dropdown();
+});
+    function getAllUserData() {
+    var a = localStorage.getItem("storageAccess");
+    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var domain = data.primaryEmail.split("@")[1];
+    var PATH = 'https://www.googleapis.com/admin/directory/v1/users/?domain=' + domain + '&access_token=' + a;
+    return $.ajax({
+        url: PATH,
+        type: "GET",
+    });
+
+}
+function showInfoAllUser() {
+    var data = JSON.parse(localStorage.getItem('storageUserData'));
+    var isAdmin = data.isAdmin;
+    var table = document.getElementById("userInOrgUnit").getElementsByTagName('tbody')[0];
+    $("#userInOrgUnit").find("tbody").empty();
+    var numberOfUser = 0;
+    $.when(getAllUserData()).done(function (data) {
+        if (!data == '') {
+            users = data["users"];
+            document.getElementById("numberOfUserHello").innerHTML = 'Tổng số nhân viên: ' + numberOfUser;
+            localStorage.setItem('storageDSUserData', JSON.stringify(users));
+        }
+    });
+}
+</script>
+<h1>hello</h1>
+<div id="numberOfUserHello"></div>
