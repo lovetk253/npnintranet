@@ -121,7 +121,7 @@ function setSigninStatus(isSignedIn) {
     if (!user.getAuthResponse(true) == '') {
         access = user.getAuthResponse(true).access_token;
         // localStorage.setItem("storageAccess", user.getAuthResponse(true).access_token);
-        document.cookie = "access="+access;
+        document.cookie = "storageAccess="+access;
     }
 
     var isAuthorized = user.hasGrantedScopes(SCOPE);
@@ -134,7 +134,7 @@ function setSigninStatus(isSignedIn) {
             // localStorage.setItem('storageInput', '');
             document.cookie = "storageInput=";
             document.cookie = "storageUserData="+JSON.stringify(data);
-            window.location.replace("home.html");
+          //  window.location.replace("home.html");
         });
     } else {
         //alert('Ban chua dang nhap!');
