@@ -82,7 +82,7 @@ function setSigninStatus(isSignedIn) {
     if (!user.getAuthResponse(true) == '') {
         access = user.getAuthResponse(true).access_token;
         // localStorage.setItem("storageAccess", user.getAuthResponse(true).access_token);
-        document.cookie = "access="+access;
+        document.cookie = "storageAccess="+access;
     }
 
     var isAuthorized = user.hasGrantedScopes(SCOPE);
