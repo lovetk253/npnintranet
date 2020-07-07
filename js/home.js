@@ -95,7 +95,7 @@ function setSigninStatus(isSignedIn) {
             // localStorage.setItem('storageInput', '');
             document.cookie = "storageInput=";
             document.cookie = "storageUserData="+JSON.stringify(data);
-            window.location.replace("home.html");
+          //  window.location.replace("home.html");
         });
     } else {
         //alert('Ban chua dang nhap!');
